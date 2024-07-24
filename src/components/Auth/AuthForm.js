@@ -6,7 +6,8 @@ import classes from './AuthForm.module.css';
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [formValues,setFormValues]=useState({email:'',password:''});
-  const url='https://react-http-7ffef-default-rtdb.firebaseio.com/movies.json'
+  const [isLoading,setIsLoading]=useState(false);
+  const url='https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDe6j4L1-OOI18rrXJ2c1gThmffmH8qnng'
   const changeHandler=(e)=>{
     setFormValues((curr)=>{ return {...curr,[e.target.name]:e.target.value}})
 } 
@@ -15,14 +16,18 @@ const AuthForm = () => {
   const submitForm=(event)=>{
     event.preventDefault()
     console.log(formValues)
+    setIsLoading(true);
+addUserHandler({...formValues,returnSecureToken:true});
+setIsLoading(false);
+
   }
 
 
-  const addMovieHandler=async(movie)=>{
+  const addUserHandler=async(user)=>{
     try{
         const response=await fetch(url,{
             method:'POST',
-            body:JSON.stringify(formValues),
+            body:JSON.stringify(user),
             headers:{
                 'Content-Type':'application/json'
             }
@@ -43,6 +48,8 @@ const AuthForm = () => {
        
     }catch(err){
         console.log(err.message)
+        alert(err.message)
+        setIsLoading(false);
     }
 
 }
@@ -73,6 +80,7 @@ const AuthForm = () => {
         </div>
         <div>
           <button onClick={submitForm}>{isLogin ? 'Login' : 'Create Account'}</button>
+          <p className={classes.white}>{isLoading?'Loading...':''}</p>
          <a className={classes.white} onClick={switchAuthModeHandler}> {isLogin 
 ? 'Create new account' : 'Login with existing account'}
           </a>
