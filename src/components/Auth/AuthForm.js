@@ -7,7 +7,8 @@ const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [formValues,setFormValues]=useState({email:'',password:''});
   const [isLoading,setIsLoading]=useState(false);
-  const url='https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDe6j4L1-OOI18rrXJ2c1gThmffmH8qnng'
+  const signUpURL='https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDe6j4L1-OOI18rrXJ2c1gThmffmH8qnng'
+  const signInURL='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDe6j4L1-OOI18rrXJ2c1gThmffmH8qnng'
   const changeHandler=(e)=>{
     setFormValues((curr)=>{ return {...curr,[e.target.name]:e.target.value}})
 } 
@@ -17,14 +18,16 @@ const AuthForm = () => {
     event.preventDefault()
     console.log(formValues)
     setIsLoading(true);
-addUserHandler({...formValues,returnSecureToken:true});
+submitHandler({...formValues,returnSecureToken:true});
 setIsLoading(false);
 
   }
 
 
-  const addUserHandler=async(user)=>{
+  const submitHandler=async(user)=>{
     try{
+      let url=signUpURL;
+      if(isLogin)url=signInURL
         const response=await fetch(url,{
             method:'POST',
             body:JSON.stringify(user),
@@ -36,6 +39,7 @@ setIsLoading(false);
 
         if(!response.ok)throw new Error('something went wrong')
         else{
+            
             setFormValues({email:'',password:''})
 
             
