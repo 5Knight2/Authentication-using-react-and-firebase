@@ -4,10 +4,12 @@ import Layout from './components/Layout/Layout';
 import UserProfile from './components/Profile/UserProfile';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
+import AuthProvider from './store/auth-provider';
 
 function App() {
   return (
     <Layout>
+      <AuthProvider>
       <Switch>
         <Route path='/' exact>
           <HomePage />
@@ -19,6 +21,7 @@ function App() {
           <UserProfile />
         </Route>
       </Switch>
+      </AuthProvider>
     </Layout>
   );
 }
