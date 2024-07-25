@@ -2,13 +2,14 @@ import { useState, useContext } from 'react';
 
 import classes from './AuthForm.module.css';
 import AuthContext from '../../store/auth-context';
-
+import { useHistory } from 'react-router-dom';
 
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [formValues,setFormValues]=useState({email:'',password:''});
   const [isLoading,setIsLoading]=useState(false);
+  const history=useHistory();
   const signUpURL='https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDe6j4L1-OOI18rrXJ2c1gThmffmH8qnng'
   const signInURL='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDe6j4L1-OOI18rrXJ2c1gThmffmH8qnng'
   const ctx=useContext(AuthContext)
@@ -51,6 +52,7 @@ setIsLoading(false);
             
             console.log(data)
             ctx.getToken(data.idToken)
+            history.replace('/profile')
         }
         
 
@@ -90,9 +92,9 @@ setIsLoading(false);
         <div>
           <button onClick={submitForm}>{isLogin ? 'Login' : 'Create Account'}</button>
           <p className={classes.white}>{isLoading?'Loading...':''}</p>
-         <a className={classes.white} onClick={switchAuthModeHandler}> {isLogin 
+         <p className={classes.white} onClick={switchAuthModeHandler}> {isLogin 
 ? 'Create new account' : 'Login with existing account'}
-          </a>
+          </p>
         </div>
       </form>
     </section>
