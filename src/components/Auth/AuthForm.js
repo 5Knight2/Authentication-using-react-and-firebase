@@ -90,7 +90,7 @@ setIsLoading(false);
         <div>
           <button onClick={submitForm}>{isLogin ? 'Login' : 'Create Account'}</button>
           <p className={classes.white}>{isLoading?'Loading...':''}</p>
-         <a href='' className={classes.white} onClick={switchAuthModeHandler}> {isLogin 
+         <a className={classes.white} onClick={switchAuthModeHandler}> {isLogin 
 ? 'Create new account' : 'Login with existing account'}
           </a>
         </div>

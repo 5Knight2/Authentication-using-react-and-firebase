@@ -8,8 +8,9 @@ import AuthProvider from './store/auth-provider';
 
 function App() {
   return (
+    <AuthProvider>
     <Layout>
-      <AuthProvider>
+      
       <Switch>
         <Route path='/' exact>
           <HomePage />
@@ -21,8 +22,9 @@ function App() {
           <UserProfile />
         </Route>
       </Switch>
-      </AuthProvider>
+     
     </Layout>
+    </AuthProvider>
   );
 }
 
