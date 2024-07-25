@@ -52,6 +52,7 @@ setIsLoading(false);
             
             console.log(data)
             ctx.getToken(data.idToken)
+            
             history.replace('/profile')
         }
         

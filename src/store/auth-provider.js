@@ -1,34 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import AuthContext from './auth-context';
+import AuthContext from "./auth-context";
 
-const AuthProvider = (props) => {
-  const [token, setToken] = useState('');
+import React,{useState} from 'react'
 
-  useEffect(() => {
-    console.log('Token updated:', token);
-  }, [token]);
+const AuthProvider=(props)=>{
+    const initialToken=localStorage.getItem('token')
+const [token,setToken]=useState(initialToken);
+const [loggedIn,setLoggedIn]=useState(false);
 
-  const setTokenHandler = (data) => {
-    setToken(data);
-    console.log('Setting Token:', data);
-  };
+const setTokenHandler=(data)=>{
+    setToken(data)
+    setLoggedIn(true)
+    console.log('Setting Token')
+    localStorage.setItem('token',token)
+}
 
-  const logoutHandler = () => {
-    setToken('');
-  };
 
-  const auth = {
-    token: token,
-    getToken: setTokenHandler,
-    logOut: logoutHandler,
-    loggedIn: !!token, // derive loggedIn from token
-  };
+const logoutHandler=()=>{
+     setToken('');
+     setLoggedIn(false)
+     localStorage.removeItem('token')
 
-  return (
+}
+
+const auth={
+    token:token,
+    loggedIn:loggedIn,
+    getToken:setTokenHandler,
+    logOut:logoutHandler
+}
+
+
+
+return(
     <AuthContext.Provider value={auth}>
-      {props.children}
+{props.children}
     </AuthContext.Provider>
-  );
-};
-
+)
+}
 export default AuthProvider;
